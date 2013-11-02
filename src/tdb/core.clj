@@ -24,3 +24,11 @@
     (amend-record record vtime :close :reason reason)
     record))
 
+(defn temporal-filter [record qtime timetype]
+  (vec (filter  #(time/before? (timetype %) qtime) record)))
+
+(defn valid-filter [record qtime]
+  (temporal-filter record qtime :vtime))
+
+(defn transaction-filter [record qtime]
+  (temporal-filter record qtime :ttime))
