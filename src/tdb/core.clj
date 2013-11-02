@@ -13,13 +13,14 @@
 (defn update-record [record vtime label value]
  (amend-record record vtime :update label value))
 
-(defn close-record [record vtime reason]
-  (if (open? record)
-    (amend-record record vtime :close :reason reason)
-    record))
-
 (defn closed? [record]
   (some #(= (:type %) :close) record))
 
 (defn open? [record]
   (not (closed? record))) 
+
+(defn close-record [record vtime reason]
+  (if (open? record)
+    (amend-record record vtime :close :reason reason)
+    record))
+
