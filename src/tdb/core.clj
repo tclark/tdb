@@ -47,3 +47,9 @@
 
 (defn transaction-filter [record qtime]
   (temporal-filter record qtime :ttime))
+
+(defn get-latest-update [record label qtime timetype]
+  "Given a temporal record, searches for the most recently added update
+   relative to the query time and timetype (vtime or ttime) having the 
+   supplied label.  Returns the matching update or nil of no match is found""
+  (last (sort-by timetype (filter #(= (:label %) label) (temporal-filter record qtime timetype)))))
