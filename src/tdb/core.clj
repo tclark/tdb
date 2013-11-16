@@ -1,7 +1,9 @@
 (ns tdb.core
- (:require [clj-time.core :as time]))
+ (:require [tdb.util :as utl]))
 
-(defn uuid[] (str (java.util.UUID/randomUUID)))
+
+(defn id [record]
+  (:id (first (filter #(= (:type %) :open) record))))
 
 (defn open-record [id vtime ttime] 
   "Creates a new temporal record using the supplied id and valid timestamp"
@@ -40,8 +42,8 @@
   "Filters a record's items by removing all items
    with a timestamp after qtime.  Filters against 
    the timetype, which may be :vtime or :ttime."
-  (let [mytime (time/plus qtime (time/seconds 1))]
-    (set (filter  #(time/before? (timetype %) mytime) record))))
+  (let [mytime (utl/time-to-string (utl/plus-one qtime))]
+    (set (filter  #(utl/before? (timetype %) mytime) record))))
 
 (defn valid-filter [record qtime]
   (temporal-filter record qtime :vtime))
