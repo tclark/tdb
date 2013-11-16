@@ -1,13 +1,17 @@
 (ns tdb.core-test
   (:require [clojure.test :refer :all]
             [tdb.core :refer :all]
-            [clj-time.core :as time]))
+            [clj-time.core :as time]
+            [clj-time.format :as fmt]
+            ))
 
 
-(def times [(time/date-time 2013 6 15 14 00)
-                  (time/date-time 2013 6 16 11 14)
-                  (time/date-time 2013 7 1  22 5)
+(def times [(fmt/unparse (fmt/formatters :basic-date-time) (time/date-time 2013 6 15 14 00))
+            (fmt/unparse (fmt/formatters :basic-date-time) (time/date-time 2013 6 16 14 00))
+            (fmt/unparse (fmt/formatters :basic-date-time) (time/date-time 2013 7 1  22 5))
                   ])
+
+
 (def new-open-record #{{:type :open :id 1 :vtime (get times 0) :ttime (get times 0)}})
 (def updated-record #{
                  {:type :update :label :foo :value "bar" :vtime (get times 1) :ttime (get times 1)}
