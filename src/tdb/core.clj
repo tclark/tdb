@@ -42,7 +42,7 @@
   "Filters a record's items by removing all items
    with a timestamp after qtime.  Filters against 
    the timetype, which may be :vtime or :ttime."
-  (let [mytime (utl/time-to-string (utl/plus-one qtime))]
+  (let [mytime (utl/plus-one qtime)]
     (set (filter  #(utl/before? (timetype %) mytime) record))))
 
 (defn valid-filter [record qtime]
